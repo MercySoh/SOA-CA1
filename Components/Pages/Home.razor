@@ -2,8 +2,18 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<button>Get Today Time</button>
 
-<h1>Just a word!</h1>
+@code{
 
-Welcome to your new app .
+	public class DateTime
+	{
+		public int error { get; set; }
+		public string error_message { get; set; }
+		public DateTime time { get; set; }
+		public string timezone { get; set; }
+		public int offset { get; set; }
+		public string daylight_savings{ get; set; }
+
+	}
+}
