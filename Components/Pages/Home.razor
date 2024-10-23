@@ -12,6 +12,8 @@
 
 <button @onclick="FetchToday">Get Today's Quote</button>
 
+<button @onclick="FetchRandom">Get Random Quote</button>
+
 @if (todaysQuotes != null)
 {
 	<h1>Today's quote:</h1>
@@ -26,16 +28,40 @@
 	</ul>
 }
 
+<br>
+
+@if (randomQuotes != null)
+{
+	<h1>Random quote:</h1>
+	<ul>
+		@foreach (var quote in randomQuotes)
+		{
+			<li>
+				<h2>Quote by:@quote.a</h2>
+				<h4>Today Quote:@quote.q</h4>
+			</li>
+		}
+	</ul>
+}
+
 
 @code{
 
 	public static ZenQuotes[] todaysQuotes;
+	public static ZenQuotes[] randomQuotes;
 
 	public HttpClient httpClient = new HttpClient();
 
+	//Get today's qoute api
 	public async Task FetchToday()
 	{
 		todaysQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/today");
+	}
+
+	//Get random qoute api
+	public async Task FetchRandom()
+	{
+		randomQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/random");
 	}
 	
 	public class ZenQuotes
