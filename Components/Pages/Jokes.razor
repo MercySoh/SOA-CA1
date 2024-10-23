@@ -1,0 +1,45 @@
+﻿@using RestSharp;
+@using System.Text.Json;
+
+@* reference: https://stackoverflow.com/questions/78097987/cannot-invoke-method-with-onclick-in-blazor-button-component *@
+@* reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0 *@
+@* rendermode Required for version 8 *@
+@rendermode @(new InteractiveServerRenderMode(false))
+
+@page "/jokes"
+
+<PageTitle>Jokes</PageTitle>
+
+<h3>Jokes</h3>
+
+<button @onclick="GetRandomJoke">Get random joke</button>
+
+@if (randomJoke != null)
+{
+	<h1>Random joke:</h1>
+	<h2>Setup:@randomJoke.setup</h2>
+	<h4>Punchline:@randomJoke.punchline</h4>
+
+}
+
+<br>
+
+@code {
+
+	public static Joke randomJoke;
+
+	public HttpClient httpClient = new HttpClient();
+
+	public async Task GetRandomJoke()
+	{
+		randomJoke = await httpClient.GetFromJsonAsync<Joke>("https://official-joke-api.appspot.com/jokes/random");
+	}
+	
+	public class Joke
+	{
+		public string type { get; set; }
+		public string setup { get; set; }
+		public string punchline { get; set; }
+		public int id { get; set; }
+	}
+}
