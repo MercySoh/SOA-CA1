@@ -16,6 +16,8 @@
 
 <button @onclick="FetchQuotes">Get Quote</button>
 
+<button @onclick="FetchEverything">Get All</button>
+
 @* today's quote *@
 @if (todaysQuotes != null)
 {
@@ -93,6 +95,14 @@
 	public async Task FetchQuotes()
 	{
 		allQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/quotes");
+	}
+
+	//Get everything in one button
+	public async Task FetchEverything()
+	{
+		await FetchQuotes();
+		await FetchToday();
+		await FetchRandom();
 	}
 
 	
