@@ -1,0 +1,119 @@
+﻿@using RestSharp;
+@using System.Text.Json;
+
+@* reference: https://stackoverflow.com/questions/78097987/cannot-invoke-method-with-onclick-in-blazor-button-component *@
+@* reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0 *@
+@* rendermode Required for version 8 *@
+@rendermode @(new InteractiveServerRenderMode(false))
+
+@page "/quotes"
+
+<h3>Quotes</h3>
+
+<button @onclick="FetchToday">Get Today's Quote</button>
+
+<button @onclick="FetchRandom">Get Random Quote</button>
+
+<button @onclick="FetchQuotes">Get Quote</button>
+
+<button @onclick="FetchEverything">Get All</button>
+
+@* today's quote *@
+@if (todaysQuotes != null)
+{
+	<h1>Today's quote:</h1>
+	<ul>
+		@foreach (var quote in todaysQuotes)
+		{
+			<li>
+				<h2>Quote by:@quote.a</h2>
+				<h4>Today Quote:@quote.q</h4>
+			</li>
+		}
+	</ul>
+}
+
+<br>
+
+@* random quote *@
+@if (randomQuotes != null)
+{
+	<h1>Random quote:</h1>
+	<ul>
+		@foreach (var quote in randomQuotes)
+		{
+			<li>
+				<h2>Quote by:@quote.a</h2>
+				<h4>Today Quote:@quote.q</h4>
+			</li>
+		}
+	</ul>
+}
+
+<br>
+
+@* all quote *@
+@{
+	var x = 1;
+}
+@if (allQuotes != null)
+{
+	<h1>All quote:</h1>
+	<ul>
+		@foreach (var quote in allQuotes)
+		{
+			<h2>@x Quote by:@quote.a</h2>
+			<h4>Today Quote:@quote.q</h4>
+
+			x++;
+		}
+	</ul>
+}
+
+@code {
+
+	public static ZenQuotes[] todaysQuotes;
+	public static ZenQuotes[] randomQuotes;
+	public static ZenQuotes[] allQuotes;
+
+	public HttpClient httpClient = new HttpClient();
+
+	//Get today's qoute api
+	public async Task FetchToday()
+	{
+		todaysQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/today");
+	}
+
+	//Get random qoute api
+	public async Task FetchRandom()
+	{
+		randomQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/random");
+	}
+
+	//Get all qoutes up to 50
+	public async Task FetchQuotes()
+	{
+		allQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/quotes");
+	}
+
+	//Get everything in one button
+	public async Task FetchEverything()
+	{
+		await FetchQuotes();
+		await FetchToday();
+		await FetchRandom();
+	}
+
+	public class ZenQuotes
+	{
+		//q = quotes
+		public string q { get; set; }
+		//a = author
+		public string a { get; set; }
+		//c = character count
+		public string c { get; set; }
+		//h = pre-formatted HTML quote
+		public string h { get; set; }
+
+	}
+}
