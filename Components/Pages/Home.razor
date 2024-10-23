@@ -1,11 +1,42 @@
-﻿@page "/"
+﻿@using RestSharp;
+@using System.Text.Json;
+
+@* reference: https://stackoverflow.com/questions/78097987/cannot-invoke-method-with-onclick-in-blazor-button-component *@
+@* reference: https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-8.0 *@
+@* rendermode Required for version 8 *@
+@rendermode @(new InteractiveServerRenderMode(false))
+
+@page "/"
 
 <PageTitle>Home</PageTitle>
 
+<button @onclick="FetchToday">Get Today's Quote</button>
 
+@if (todaysQuotes != null)
+{
+	<h1>Today's quote:</h1>
+	<ul>
+		@foreach (var quote in todaysQuotes)
+		{
+			<li>
+				<h2>Quote by:@quote.a</h2>
+				<h4>Today Quote:@quote.q</h4>
+			</li>
+		}
+	</ul>
+}
 
 
 @code{
+
+	public static ZenQuotes[] todaysQuotes;
+
+	public HttpClient httpClient = new HttpClient();
+
+	public async Task FetchToday()
+	{
+		todaysQuotes = await httpClient.GetFromJsonAsync<ZenQuotes[]>("https://zenquotes.io/api/today");
+	}
 	
 	public class ZenQuotes
 	{
