@@ -10,20 +10,22 @@
 
 <PageTitle>Jokes</PageTitle>
 
-<h3>Jokes</h3>
+<h1>Jokes Collection</h1><br>
 
-<button @onclick="GetRandomJoke">Get random joke</button>
-
-<button @onclick="Get10RandomJoke">Get 10 random joke</button>
+<h5 >Click button to show a random joke.</h5><button @onclick="GetRandomJoke">Get random joke</button>
+<br>
 
 @if (randomJoke != null)
 {
-	<h1>Random joke:</h1>
-	<h2>Setup:@randomJoke.setup</h2>
-	<h4>Punchline:@randomJoke.punchline</h4>
-
+	<div style="border:double">
+		<h6 style="font-weight:bold">Random Joke</h6>
+		<p>@randomJoke.setup</p>
+		<p>@randomJoke.punchline</p>
+	</div>
 }
+<br>
 
+<h5>Click button to show 10 random joke.</h5><button @onclick="Get10RandomJoke">Get 10 random joke</button>
 <br>
 
 @{
@@ -31,17 +33,20 @@
 }
 @if (tenJoke != null)
 {
-	<h1>Ten Random Joke:</h1>
-	<ul>
-		@foreach (var joke in tenJoke)
-		{
-			<h3>@n</h3>
-			<h2>Setup:@joke.setup</h2>
-			<h4>Punchline:@joke.punchline</h4>
+	<div style="border:double">
+		<h6 style="font-weight:bold">Ten Random Joke:</h6>
+		<ul>
+			@foreach (var joke in tenJoke)
+			{
+				<p>@n</p>
+				<p>@joke.setup</p>
+				<p>@joke.punchline</p>
 
-			n++;
-		}
-	</ul>
+				n++;
+			}
+		</ul>
+	</div>
+	
 }
 
 @code {
