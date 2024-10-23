@@ -2,18 +2,22 @@
 
 <PageTitle>Home</PageTitle>
 
-<button>Get Today Time</button>
+
+
 
 @code{
-
-	public class DateTime
+	
+	public class ZenQuotes
 	{
-		public int error { get; set; }
-		public string error_message { get; set; }
-		public DateTime time { get; set; }
-		public string timezone { get; set; }
-		public int offset { get; set; }
-		public string daylight_savings{ get; set; }
+		//q = quotes
+		public string q { get; set; }
+		//a = author
+		public string a { get; set; }
+		//c = character count
+		public string c { get; set; }
+		//h = pre-formatted HTML quote
+		public string h { get; set; }
 
 	}
+	
 }
