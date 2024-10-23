@@ -8,48 +8,51 @@
 
 @page "/quotes"
 
-<h3>Quotes</h3>
+<h1>Quotes Collection</h1><br>
 
-<button @onclick="FetchToday">Get Today's Quote</button>
-
-<button @onclick="FetchRandom">Get Random Quote</button>
-
-<button @onclick="FetchQuotes">Get Quote</button>
-
-<button @onclick="FetchEverything">Get All</button>
+<h5>Click button to get Today's Quote.</h5><button @onclick="FetchToday">Get Today's Quote</button>
+<br>
 
 @* today's quote *@
 @if (todaysQuotes != null)
 {
-	<h1>Today's quote:</h1>
-	<ul>
-		@foreach (var quote in todaysQuotes)
-		{
-			<li>
-				<h2>Quote by:@quote.a</h2>
-				<h4>Today Quote:@quote.q</h4>
-			</li>
-		}
-	</ul>
+	<div style="border:dotted">
+		<h6 style="font-weight:bold">Today's quote</h6>
+		<ul>
+			@foreach (var quote in todaysQuotes)
+			{
+					<p >@quote.a</p>
+					<p style="font-style:italic">@quote.q</p>
+			}
+		</ul>
+	</div>
+	
 }
 
+<br>
+
+<h5>Click button to get a random Quote.</h5><button @onclick="FetchRandom">Get Random Quote</button>
 <br>
 
 @* random quote *@
 @if (randomQuotes != null)
 {
-	<h1>Random quote:</h1>
-	<ul>
-		@foreach (var quote in randomQuotes)
-		{
-			<li>
-				<h2>Quote by:@quote.a</h2>
-				<h4>Random Quote:@quote.q</h4>
-			</li>
-		}
-	</ul>
+	<div style="border:dotted">
+		<h6 style="font-weight:bold">Random quote</h6>
+		<ul>
+			@foreach (var quote in randomQuotes)
+			{
+				<p>@quote.a</p>
+				<p style="font-style:italic">@quote.q</p>
+			}
+		</ul>
+	</div>
+	
 }
 
+<br>
+
+<h5>Click button to get 50 random Quote.</h5><button @onclick="FetchQuotes">Get Quote</button>
 <br>
 
 @* all quote *@
@@ -58,17 +61,25 @@
 }
 @if (allQuotes != null)
 {
-	<h1>All quote:</h1>
-	<ul>
-		@foreach (var quote in allQuotes)
-		{
-			<h2>@x Quote by:@quote.a</h2>
-			<h4>Quote:@quote.q</h4>
+	<div style="border:dotted">
+		<h6 style="font-weight:bold">All quote</h6>
+		<ul>
+			@foreach (var quote in allQuotes)
+			{
+				<p>@x @quote.a</p>
+			    <p style="font-style:italic">@quote.q</p>
 
-			x++;
-		}
-	</ul>
+				x++;
+			}
+		</ul>
+	</div>
+	
 }
+
+<br>
+
+<h5>Try get all quotes service in one button!</h5><button @onclick="FetchEverything">Get All</button>
+
 
 @code {
 
